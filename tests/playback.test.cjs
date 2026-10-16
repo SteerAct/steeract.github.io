@@ -15,7 +15,8 @@ function models() {
 
 test('mechanism advances at 3× before and after timestep 900, clamped at the end', () => {
   const {SteerDemo} = models();
-  assert.equal(SteerDemo.initialIndex, 70);
+  assert.equal(SteerDemo.initialIndex, 10);
+  assert.equal(SteerDemo.minIndex, 10);
   assert.equal(SteerDemo.nextIndex(70, 1000), 85);
   assert.equal(SteerDemo.nextIndex(90, 1000), 105);
   assert.equal(SteerDemo.nextIndex(115, 1000), 120);
@@ -106,7 +107,8 @@ test('buffer notifications pause the mechanism only when video data is still mis
     await page.evaluate(() => document.getElementById('unsteered-linked-video').dispatchEvent(new Event('waiting')));
     assert.equal(await page.locator('#play-button').getAttribute('aria-pressed'), 'true', 'recovered video must not stop playback');
     await page.evaluate(() => {window.mediaReadyState=2;document.getElementById('unsteered-linked-video').dispatchEvent(new Event('waiting'));});
-    assert.equal(await page.locator('#play-button').getAttribute('aria-pressed'), 'false', 'genuine buffering must pause both videos');
+    await page.waitForFunction(() => document.getElementById('play-button').getAttribute('aria-pressed') === 'false');
+    assert.equal(await page.locator('#play-button').getAttribute('aria-pressed'), 'false', 'persistent buffering must pause both videos');
     assert.ok(await page.locator('#mechanism video').evaluateAll(vs=>vs.every(v=>v.paused)));
   } finally {await browser.close();}
 });

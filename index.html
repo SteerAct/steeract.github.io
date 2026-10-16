@@ -418,12 +418,14 @@
     .masthead { min-height:76px; position:sticky; top:0; z-index:20; background:rgba(250,250,247,.94); backdrop-filter:blur(12px); }
     main { display:flex; flex-direction:column; }
     .hero { order:0; }
-    #abstract { order:1; }
-    #method { order:2; }
-    #mechanism { order:3; }
-    #real-robots { order:4; }
-    #videos { order:5; }
-    .closing { order:6; }
+    #overview-video { order:1; }
+    #abstract { order:2; }
+    #method-video { order:3; }
+    #method { order:4; }
+    #mechanism { order:5; }
+    #real-robots { order:6; }
+    #videos { order:7; }
+    .closing { order:8; }
     .hero { padding-top:72px; padding-bottom:18px; }
     .hero .lead { max-width:700px; }
     .title-phrase { white-space:nowrap; }
@@ -501,6 +503,16 @@
       .video-placeholder { min-height:90px; } .mechanism-grid { break-inside:avoid; }
       details > * { display:block; } footer { padding:12px 0; }
     }
+    .presentation-video { max-width:100%; }
+    .presentation-video .section-heading { margin-bottom:20px; }
+    .presentation-video video { display:block; width:100%; aspect-ratio:16/9; background:#111; border-radius:8px; }
+    #mechanism .chart-grid { grid-template-rows:280px 42px 42px 70px 26px; }
+    #mechanism .trace-container { height:280px; }
+    #mechanism .trace-line { stroke-width:2.5; }
+    @media (max-width:700px) {
+      #mechanism .chart-grid { grid-template-rows:220px 42px 42px 70px 26px; }
+      #mechanism .trace-container { height:220px; }
+    }
   </style>
 </head>
 <body>
@@ -523,6 +535,14 @@
           <a class="resource primary" href="#real-robots">Explore the demos <span aria-hidden="true">↗</span></a>
         </div>
       </section>
+      <section class="section presentation-video" id="overview-video" aria-labelledby="overview-video-title">
+        <div class="section-heading"><h2 id="overview-video-title">Overview</h2></div>
+        <video controls playsinline preload="metadata" poster="assets/images/overview-video.jpg" aria-label="SteerAct overview">
+          <source src="assets/videos/Steer-Animation.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="assets/videos/Steer-Animation.mp4">Watch the overview video</a>.
+        </video>
+      </section>
+
       <section class="section" id="abstract" aria-labelledby="abstract-title">
         <div class="section-heading"><div><p class="eyebrow">Paper overview</p><h2 id="abstract-title">Abstract</h2></div></div>
         <div class="paper-copy">
@@ -532,6 +552,14 @@
           <p class="abstract-keywords"><strong>Keywords:</strong> Vision–language–action models, World–action models, Activation steering, Few-shot adaptation.</p>
         </div>
       </section>
+      <section class="section presentation-video" id="method-video" aria-labelledby="method-video-title">
+        <div class="section-heading"><h2 id="method-video-title">Method walkthrough</h2></div>
+        <video controls playsinline preload="metadata" poster="assets/images/method-video.jpg" aria-label="SteerAct method walkthrough">
+          <source src="assets/videos/Steer-Method.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="assets/videos/Steer-Method.mp4">Watch the method walkthrough video</a>.
+        </video>
+      </section>
+
       <section class="section" id="method" aria-labelledby="method-title">
         <div class="section-heading"><div><p class="eyebrow">Method</p><h2 id="method-title">One temporal descriptor, offline and online.</h2><p class="section-lead">A shared sparse autoencoder (SAE) provides features and steering directions. The descriptor summarizes local activation-order patterns, comparing histories without timestep alignment.</p></div></div>
         <figure class="method-figure">
@@ -570,7 +598,7 @@
           <div class="chart-panel">
             <div class="chart-title"><h3>Illustrative feature dynamics</h3><div class="trace-legend" aria-hidden="true"><span class="trace-key reference">Illustrative success reference</span><span class="trace-key">SteerAct</span><span class="trace-key baseline">Unsteered</span></div></div>
             <div class="chart-grid" role="img" aria-label="Illustrative success reference and feature dynamics, the Support Gate, the Failure Gate, and the steering coefficient on a shared timestep axis alongside Open Microwave videos.">
-              <div class="row-label">Feature intensity<small>Illustrative trace</small></div>
+              <div class="row-label">Feature intensity<small>Zoomed · steps 100–1200</small></div>
               <div class="trace-container">
                 <svg class="trace-svg" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
                   <defs><clipPath id="history-clip"><rect id="history-window" x="0" y="0" width="583.3333" height="150"/></clipPath></defs>
@@ -589,8 +617,8 @@
               <div class="row-label">Failure gate</div><div class="track outcome" id="outcome-track"></div>
               <div class="row-label">Steering coefficient</div>
               <div class="correction-container"><svg class="correction-svg" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="correction-clip"><rect id="correction-window" x="0" y="0" width="583.3333" height="70"/></clipPath></defs><path d="M0 35H1000" stroke="#b8c3bd" stroke-width="1" vector-effect="non-scaling-stroke"/><g id="correction-bars" clip-path="url(#correction-clip)"></g></svg></div>
-              <div></div><div class="axis"><span>0</span><span class="axis-label">Timestep</span><span>1200</span></div>
-              <div class="cursor-layer" aria-hidden="true"><div class="cursor" id="timeline-cursor" style="left:58.3333%"><span class="cursor-dot" id="feature-dot"></span></div></div>
+              <div></div><div class="axis"><span>100</span><span class="axis-label">Timestep</span><span>1200</span></div>
+              <div class="cursor-layer" aria-hidden="true"><div class="cursor" id="timeline-cursor" style="left:0%"><span class="cursor-dot" id="feature-dot"></span></div></div>
             </div>
           </div>
           <figure class="linked-video baseline">
@@ -600,7 +628,7 @@
               <div class="linked-pending" id="unsteered-video-pending"><strong>Loading video</strong><small>Unsteered Open Microwave rollout</small></div>
             </div>
             <p class="media-state" id="unsteered-media-status">Loading the rollout footage.</p>
-            <p class="media-time" id="unsteered-media-time">Unsteered timestep 0700 / 1200</p>
+            <p class="media-time" id="unsteered-media-time">Unsteered timestep 0100 / 1200</p>
           </figure>
           <figure class="linked-video ours">
             <figcaption>SteerAct <span>Open Microwave</span></figcaption>
@@ -609,13 +637,13 @@
               <div class="linked-pending" id="steered-video-pending"><strong>Loading video</strong><small>Steered Open Microwave rollout</small></div>
             </div>
             <p class="media-state" id="steered-media-status">Loading the rollout footage.</p>
-            <p class="media-time" id="steered-media-time">SteerAct timestep 0700 / 1200</p>
+            <p class="media-time" id="steered-media-time">SteerAct timestep 0100 / 1200</p>
           </figure>
         </div>
         <div class="controls" aria-label="Shared demonstration playback">
           <button class="play-button" id="play-button" type="button" aria-label="Play shared demonstration" aria-pressed="false"><svg class="play-icon" viewBox="0 0 12 12" aria-hidden="true"><path id="play-symbol" d="M2 1L11 6 2 11Z"/></svg><span id="play-text">Play</span></button>
-          <button class="replay" id="replay-button" type="button" aria-label="Reset demonstration to timestep 700" title="Reset to timestep 700"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6a7 7 0 1 1-1 7M4 2v5h5"/></svg></button>
-          <div class="slider-wrap"><label class="sr-only" for="timeline-slider">Demonstration timestep</label><input id="timeline-slider" type="range" min="0" max="120" value="70" step="1"><output class="frame-readout" id="frame-readout" for="timeline-slider">0700 / 1200</output></div>
+          <button class="replay" id="replay-button" type="button" aria-label="Reset demonstration to timestep 100" title="Reset to timestep 100"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6a7 7 0 1 1-1 7M4 2v5h5"/></svg></button>
+          <div class="slider-wrap"><label class="sr-only" for="timeline-slider">Demonstration timestep</label><input id="timeline-slider" type="range" min="10" max="120" value="10" step="1"><output class="frame-readout" id="frame-readout" for="timeline-slider">0100 / 1200</output></div>
           <p class="control-caption">Shared timeline<br>Both rollouts</p>
         </div>
         <p class="mechanism-note">Feature curves and the shaded reference band are illustrative, not measured activation distributions. The method compares temporal descriptors with fixed success and failure banks; the shaded band is not the bank itself.</p>
@@ -821,7 +849,7 @@
     // Open Microwave demonstration sampled every 10 source timesteps (0–1200).
     // Displayed feature/reference curves below are illustrative, not measured distributions.
     var SteerDemo = (() => {
-      const maxIndex = 120, initialIndex = 70, playbackSpeed = 3;
+      const minIndex = 10, maxIndex = 120, initialIndex = minIndex, playbackSpeed = 3;
       const recordedSteered = [1.243501,1.069619,0.824565,0.554819,0.288112,0.071051,-0.046448,-0.082098,-0.086537,-0.083559,-0.080789,-0.083673,-0.094425,-0.111296,-0.130505,-0.146419,-0.152473,-0.146002,-0.130116,-0.109855,-0.090358,-0.076315,-0.069798,-0.068905,-0.069708,-0.068691,-0.064573,-0.142986,-0.098413,-0.055877,-0.01905,0.011152,0.03646,0.059218,0.081447,0.104163,0.126408,0.145338,0.157439,0.159797,0.151386,0.133395,0.108316,0.080103,0.053683,0.032203,0.015742,0.002946,-0.007889,-0.018208,-0.027982,-0.036331,-0.041913,-0.042783,-0.037675,-0.026761,-0.010957,0.008785,0.031129,0.054627,0.078151,0.10084,0.122094,0.141502,0.158668,0.173209,0.18493,0.193932,0.200563,0.205201,0.20799,0.208737,0.206861,0.201486,0.191837,0.177729,0.159804,0.139565,0.1192,0.101127,0.087406,0.079209,0.076565,0.078484,0.083346,0.089329,0.095028,0.100004,0.104789,0.110557,0.118753,0.130558,0.146267,0.165094,0.185364,0.204865,0.221331,0.23302,0.2391,0.239734,0.235942,0.229277,0.221398,0.213661,0.20682,0.200925,0.195435,0.189451,0.182018,0.172494,0.160837,0.147717,0.134456,0.122784,0.11446,0.110839,0.112529,0.119213,0.129699,0.142202,0.154786];
       const baseline = [1.243501,1.069619,0.824565,0.554819,0.288112,0.071051,-0.046448,-0.082098,-0.086537,-0.083559,-0.080789,-0.083673,-0.094425,-0.111296,-0.130505,-0.146419,-0.152473,-0.146002,-0.130116,-0.109855,-0.090358,-0.076315,-0.069798,-0.068905,-0.069708,-0.068691,-0.064573,-0.058392,-0.052028,-0.048307,-0.050289,-0.058735,-0.07144,-0.085387,-0.097477,-0.104741,-0.106202,-0.103742,-0.100615,-0.099851,-0.103512,-0.112119,-0.124638,-0.137691,-0.146389,-0.147978,-0.142947,-0.133612,-0.123657,-0.117653,-0.118067,-0.123666,-0.130422,-0.133887,-0.132058,-0.125827,-0.118132,-0.113306,-0.115394,-0.125573,-0.141648,-0.159484,-0.174342,-0.182422,-0.182585,-0.176783,-0.168786,-0.162385,-0.159702,-0.160543,-0.16274,-0.162907,-0.1581,-0.147663,-0.133548,-0.119209,-0.108618,-0.104913,-0.108911,-0.118692,-0.130448,-0.140149,-0.145152,-0.144793,-0.140381,-0.135573,-0.134565,-0.139123,-0.148359,-0.15991,-0.169858,-0.173863,-0.170341,-0.160992,-0.149089,-0.138309,-0.131724,-0.129907,-0.130606,-0.130281,-0.125984,-0.116764,-0.10428,-0.092307,-0.085386,-0.086857,-0.096824,-0.112227,-0.128553,-0.141428,-0.148116,-0.148768,-0.14622,-0.144324,-0.146178,-0.152796,-0.162523,-0.171642,-0.176095,-0.173262,-0.16303];
       const corrections = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,0.85,1.75,1.75,1.75,1.75,1.75,1.75,1.75,1.75,1.75,1.75,1.75,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,1.3,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.8,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-0.7,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05,-1.05];
@@ -867,16 +895,16 @@
       const baselineAt = index => baselineSamples[Math.min(maxIndex,Math.max(0,Math.floor(Number.isFinite(index)?index:0)))];
       const referenceSamples = reference.map((feature,index)=>Object.freeze({index,timestep:index*10,feature,halfWidth:referenceHalfWidth[index]}));
       const referenceBounds=reference.flatMap((feature,index)=>[feature-referenceHalfWidth[index],feature+referenceHalfWidth[index]]);
-      const values = steered.concat(baseline,referenceBounds), valueMin=Math.min(...values), valueMax=Math.max(...values);
+      const values = steered.slice(minIndex).concat(baseline.slice(minIndex),referenceBounds.slice(minIndex*2)), valueMin=Math.min(...values), valueMax=Math.max(...values);
       const valuePadding=(valueMax-valueMin)*0.06;
       const yFor = value => 140-(value-(valueMin-valuePadding))/(valueMax-valueMin+2*valuePadding)*130;
       const alphaMax=Math.max(...corrections.map(Math.abs));
-      return Object.freeze({samples,stateAt,nextIndex,maxIndex,initialIndex,playbackSpeed,baselineSamples,baselineAt,referenceSamples,yFor,alphaMax});
+      return Object.freeze({samples,stateAt,nextIndex,minIndex,maxIndex,initialIndex,playbackSpeed,baselineSamples,baselineAt,referenceSamples,yFor,alphaMax});
     })();
   </script>
   <script id="sync-model">
     var SteerSync = (() => {
-      const clampIndex=x=>Math.min(120,Math.max(0,Number.isFinite(x)?x:0));
+      const clampIndex=x=>Math.min(SteerDemo.maxIndex,Math.max(SteerDemo.minIndex,Number.isFinite(x)?x:SteerDemo.minIndex));
       const valid=t=>t&&Number.isFinite(t.offsetSeconds)&&t.offsetSeconds>=0&&Number.isFinite(t.secondsPerDecision)&&t.secondsPerDecision>0;
       const targetTime=(index,timing,duration)=>!valid(timing)||!Number.isFinite(duration)||duration<=0?null:Math.min(duration,timing.offsetSeconds+clampIndex(index)*timing.secondsPerDecision);
       const indexFromTime=(time,timing)=>valid(timing)&&Number.isFinite(time)?clampIndex((time-timing.offsetSeconds)/timing.secondsPerDecision):0;
@@ -901,7 +929,7 @@
           if(clips.some(e=>e.timing.offsetSeconds+clampIndex(index)*e.timing.secondsPerDecision>=e.video.duration)){
             pause();onError('This sample is outside a linked clip’s playable range. Reset or seek to an earlier timestep.');return false;
           }
-          seek(index);
+          seek(index,false);
           try {
             const pending=clips.map(e=>{e.video.playbackRate=5*SteerDemo.playbackSpeed*e.timing.secondsPerDecision;return e.video.play();});
             await Promise.all(pending);
@@ -929,8 +957,9 @@
       const byId = id => document.getElementById(id);
       const svgNS = 'http://www.w3.org/2000/svg';
       const model = SteerDemo;
-      const pointsFor=(samples,valueFor=s=>s.feature)=>samples.map(s=>({
-        x:s.index/model.maxIndex*1000,
+      const progressFor=index=>(index-model.minIndex)/(model.maxIndex-model.minIndex);
+      const pointsFor=(samples,valueFor=s=>s.feature)=>samples.filter(s=>s.index>=model.minIndex).map(s=>({
+        x:progressFor(s.index)*1000,
         y:model.yFor(valueFor(s))
       }));
       const smoothPath=(points,start='M')=>{
@@ -967,8 +996,9 @@
           if (!open && start !== null) {
             const span = document.createElement('span');
             span.className = 'segment';
-            span.style.left = `${start / model.maxIndex * 100}%`;
-            span.style.width = `${(Math.min(i,model.maxIndex) - start) / model.maxIndex * 100}%`;
+            const visibleStart=Math.max(start,model.minIndex);
+            span.style.left = `${progressFor(visibleStart) * 100}%`;
+            span.style.width = `${Math.max(0,Math.min(i,model.maxIndex)-visibleStart)/(model.maxIndex-model.minIndex)*100}%`;
             container.appendChild(span);
             start = null;
           }
@@ -977,10 +1007,10 @@
       drawGate('maturity-track','maturity');
       drawGate('outcome-track','outcome');
       for (const s of model.samples) {
-        if (s.alpha === 0) continue;
+        if (s.alpha === 0 || s.index < model.minIndex) continue;
         const rect = document.createElementNS(svgNS,'rect');
         const height = Math.abs(s.alpha) / model.alphaMax * 29;
-        rect.setAttribute('x',Math.min(994,s.index / model.maxIndex * 1000));
+        rect.setAttribute('x',Math.min(994,progressFor(s.index) * 1000));
         rect.setAttribute('y',s.alpha > 0 ? 35 - height : 35);
         rect.setAttribute('width','5.8');
         rect.setAttribute('height',height);
@@ -1011,7 +1041,13 @@
           });
           video.addEventListener('waiting',()=>{
             // A queued waiting event may arrive after playback has recovered.
-            if(playing&&video.readyState<3){pause(false);status('Playback paused while a video buffers.');}
+            if(playing&&video.readyState<3){
+              // Seeking and rate changes can briefly emit waiting before canplay.
+              // Pause both only if the stall persists after the media recovers.
+              window.setTimeout(()=>{
+                if(playing&&video.readyState<3){pause(false);status('Playback paused while a video buffers.');}
+              },300);
+            }
           });
           video.addEventListener('ended',()=>{
             if(playing||starting){reachedClipEnd=true;pause(false);status('Playback complete.');}
@@ -1020,7 +1056,7 @@
         }
 
         function render() {
-          const s=sampleAt(index), percent=s.index/model.maxIndex*100;
+          const s=sampleAt(index), percent=progressFor(s.index)*100;
           byId('timeline-cursor').style.left=percent+'%';
           byId('history-window').setAttribute('width',percent*10);
           byId('correction-window').setAttribute('width',percent*10);
